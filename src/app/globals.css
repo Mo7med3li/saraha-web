@@ -128,3 +128,49 @@
     @apply font-sans;
   }
 }
+
+@keyframes auth-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes auth-blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(18px, -14px) scale(1.06);
+  }
+}
+
+.auth-rise {
+  animation: auth-rise 0.7s ease-out both;
+}
+
+.auth-rise-delayed {
+  animation: auth-rise 0.85s ease-out 0.12s both;
+}
+
+.auth-blob {
+  animation: auth-blob 14s ease-in-out infinite;
+}
+
+.auth-blob-delayed {
+  animation: auth-blob 18s ease-in-out 2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-rise,
+  .auth-rise-delayed,
+  .auth-blob,
+  .auth-blob-delayed {
+    animation: none;
+  }
+}
