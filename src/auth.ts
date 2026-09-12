@@ -1,5 +1,10 @@
 import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import {
+  loginWithCredentials,
+  loginWithGoogleIdToken,
+} from "./app/api/auth.api";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -21,21 +26,10 @@ export const authOptions: NextAuthOptions = {
         },
       },
       authorize: async (credentials) => {
-        const response = await fetch(`${process.env.DATABASE_URL}/auth/login`, {
-          method: "POST",
-          body: JSON.stringify({
-            email: credentials?.email,
-            password: credentials?.password,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const payload: ApiResponse<ILoginResponse> = await response.json();
-        if (!payload.success) {
-          throw new Error(payload.message);
-        }
-        const data = payload.data!;
+        const data = await loginWithCredentials(
+          credentials?.email,
+          credentials?.password,
+        );
         return {
           id: data.user._id,
           token: data.accessToken,
@@ -44,9 +38,27 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
   ],
   callbacks: {
-    jwt: ({ token, user, trigger, session }) => {
+    jwt: async ({ token, user, account, trigger, session }) => {
+      if (account?.provider === "google") {
+        if (!account.id_token) {
+          throw new Error("Google ID token missing");
+        }
+
+        const data = await loginWithGoogleIdToken(account.id_token);
+        console.log("Google OAuth data", data);
+        token.user = data.user;
+        token.token = data.accessToken;
+        token.refreshToken = data.refreshToken;
+        return token;
+      }
+
+      // Credentials (and other providers that return our User shape)
       if (user) {
         token.user = user.user;
         token.token = user.token;
