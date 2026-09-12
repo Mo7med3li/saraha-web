@@ -2,6 +2,9 @@ import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: "/login",
+  },
   providers: [
     Credentials({
       name: "credentials",
@@ -43,11 +46,16 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    jwt: ({ token, user }) => {
+    jwt: ({ token, user, trigger, session }) => {
       if (user) {
         token.user = user.user;
         token.token = user.token;
         token.refreshToken = user.refreshToken;
+      }
+      if (trigger === "update" && user) {
+        token.user = session?.user;
+        token.token = session?.accessToken;
+        token.refreshToken = session?.refreshToken;
       }
       return token;
     },
