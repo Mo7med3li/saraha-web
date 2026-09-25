@@ -49,13 +49,16 @@ export const authOptions: NextAuthOptions = {
         if (!account.id_token) {
           throw new Error("Google ID token missing");
         }
-
-        const data = await loginWithGoogleIdToken(account.id_token);
-        console.log("Google OAuth data", data);
-        token.user = data.user;
-        token.token = data.accessToken;
-        token.refreshToken = data.refreshToken;
-        return token;
+        try {
+          const data = await loginWithGoogleIdToken(account.id_token);
+          token.user = data.user;
+          token.token = data.accessToken;
+          token.refreshToken = data.refreshToken;
+          return token;
+        } catch (error) {
+          console.error(error);
+          throw new Error("Failed to login with Google");
+        }
       }
 
       // Credentials (and other providers that return our User shape)
