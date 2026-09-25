@@ -9,15 +9,7 @@ import { useForm } from "@tanstack/react-form";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
-import z from "zod";
-
-const zodSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Invalid email address"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must be at least 8 characters long"),
-});
+import { loginSchema } from "../_schema/login.schema";
 
 export default function LoginForm() {
   const [error, setError] = useState<string | null>(null);
@@ -27,9 +19,9 @@ export default function LoginForm() {
       password: "",
     },
     validators: {
-      onChange: zodSchema,
-      onMount: zodSchema,
-      onSubmit: zodSchema,
+      onChange: loginSchema,
+      onMount: loginSchema,
+      onSubmit: loginSchema,
     },
     onSubmit: async ({ value }) => {
       const result = await signIn("credentials", {
