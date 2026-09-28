@@ -1,5 +1,6 @@
 import { Fraunces } from "next/font/google";
 import Brand from "./_components/brand";
+import { RegisterEmailProvider } from "@/src/components/providers/components/register-email.provider";
 
 const display = Fraunces({
   subsets: ["latin"],
@@ -25,7 +26,7 @@ export default function AuthLayout({
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.92_0.03_180/0.7),transparent_55%)]"
         />
         <div className="auth-rise relative z-10 w-full max-w-md">
-          {children}
+          <RegisterEmailProvider>{children}</RegisterEmailProvider>
         </div>
       </section>
     </main>
