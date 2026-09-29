@@ -113,7 +113,6 @@ export default function ConfirmationStep({ setStep }: ConfirmationStepProps) {
 
       <TanStackFormProvider form={form}>
         <div className="space-y-4">
-          {email}
           <TanStackFormItem name="otp" label="Verification code" required>
             {(field) => (
               <InputOTP
