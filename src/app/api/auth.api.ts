@@ -17,7 +17,11 @@ export async function loginWithGoogleIdToken(
   const payload: ApiResponse<ILoginResponse> = await response.json();
   console.log("Google OAuth response", payload);
   if (!payload.success) {
-    throw new Error(payload.message);
+    throw new Error(
+      typeof payload.message === "string"
+        ? payload.message
+        : payload.message[0].message || "Failed to sign in",
+    );
   }
 
   return payload.data!;
@@ -42,7 +46,11 @@ export async function loginWithCredentials(
   });
   const payload: ApiResponse<ILoginResponse> = await response.json();
   if (!payload.success) {
-    throw new Error(payload.message);
+    throw new Error(
+      typeof payload.message === "string"
+        ? payload.message
+        : payload.message[0].message,
+    );
   }
   const data = payload.data!;
   return data;

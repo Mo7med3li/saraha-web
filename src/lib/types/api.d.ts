@@ -2,7 +2,7 @@ declare type ApiResponse<T> = IErrorResponse | ISuccessResponse<T>;
 
 declare interface IErrorResponse {
   success: false;
-  message: string;
+  message: string | { keys: string; message: string }[];
   stack?: string;
 }
 
@@ -11,3 +11,5 @@ declare interface ISuccessResponse<T> {
   message: string;
   data?: T;
 }
+
+declare type APIResponseNoData<T> = Omit<ApiResponse<T>, "data">;

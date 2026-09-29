@@ -13,7 +13,6 @@ export const resendEmailAction = async (data: ResendEmailFields) => {
     },
   );
 
-  //   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! sign up response
   const payload: APIResponseNoData<ResendEmailFields> = await response.json();
   if (!payload?.success) {
     throw new Error(
