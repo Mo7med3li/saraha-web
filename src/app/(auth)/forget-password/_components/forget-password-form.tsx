@@ -5,6 +5,7 @@ import SendOtp from "./send-otp";
 import VerifyOtp from "./verify-otp";
 import ResetPassword from "./reset-password";
 import { StepsIndicator } from "@/src/components/shared/steps-indicator";
+import RailwayEmailAlert from "../../_components/railway-email-alert";
 // steps configuration
 const steps = [
   { label: "Send OTP" },
@@ -27,6 +28,9 @@ export default function ForgetPasswordForm() {
 
   return (
     <section className="space-y-6">
+      {/* ── Railway email warning banner ── */}
+      <RailwayEmailAlert />
+
       {/* ── Steps Indicator ── */}
       <StepsIndicator step={getActiveStep()} STEPS={steps} />
 
