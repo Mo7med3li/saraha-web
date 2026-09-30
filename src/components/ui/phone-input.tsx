@@ -294,35 +294,36 @@ const CountrySelect = ({
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen} modal>
-      <PopoverTrigger>
-        <Button
-          type="button"
-          //   variant="outline"
-          className="flex gap-1 bg-[oklch(0.72_0.1_175/0.25)] hover:bg-green-600 rounded-e-none rounded-s-lg border-r-0 border-zinc-300 px-3 h-10 focus:z-10"
-          disabled={disabled}
-        >
-          <FlagComponent
-            country={selectedCountry}
-            countryName={selectedCountry}
-          />
-          <span className="text-gray-950 text-sm font-medium">
-            <span>{selectedCountry}</span>(
-            <span>
-              +
-              {selectedCountry
-                ? RPNInput.getCountryCallingCode(selectedCountry)
-                : ""}
+      <PopoverTrigger
+        render={
+          <Button
+            type="button"
+            className="flex gap-1 bg-muted/60 hover:bg-muted rounded-e-none rounded-s-lg border-r-0 border-input px-3 h-10 focus:z-10 cursor-pointer"
+            disabled={disabled}
+          >
+            <FlagComponent
+              country={selectedCountry}
+              countryName={selectedCountry}
+            />
+            <span className="text-foreground text-sm font-medium">
+              <span>{selectedCountry}</span>(
+              <span>
+                +
+                {selectedCountry
+                  ? RPNInput.getCountryCallingCode(selectedCountry)
+                  : ""}
+              </span>
+              )
             </span>
-            )
-          </span>
-          <ChevronsUpDown
-            className={cn(
-              "-mr-2 size-4 opacity-50 text-black",
-              disabled ? "hidden" : "opacity-100",
-            )}
-          />
-        </Button>
-      </PopoverTrigger>
+            <ChevronsUpDown
+              className={cn(
+                "-mr-1.5 size-4 opacity-60 text-muted-foreground",
+                disabled ? "hidden" : "opacity-100",
+              )}
+            />
+          </Button>
+        }
+      />
       <PopoverContent className="w-75 p-0">
         <Command>
           <CommandInput
