@@ -12,6 +12,7 @@
     "@base-ui/react": "^1.8.0",
     "@tanstack/react-form": "^1.33.5",
     "@tanstack/react-query": "^5.102.8",
+    "array-move": "^4.0.0",
     "class-variance-authority": "^0.7.1",
     "cmdk": "^1.1.1",
     "cn": "^0.2.6",

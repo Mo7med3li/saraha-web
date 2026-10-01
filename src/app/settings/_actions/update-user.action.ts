@@ -22,7 +22,7 @@ export const updateUserAction = async (data: UpdateProfileFields) => {
     throw new Error(
       typeof payload.message === "string"
         ? payload.message
-        : (payload?.message?.[0]?.message ?? "Failed to confirm email"),
+        : (payload?.message?.[0]?.message ?? "Failed to update user profile"),
     );
   }
   return payload.message;

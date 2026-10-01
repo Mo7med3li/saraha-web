@@ -9,9 +9,8 @@ import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { PhoneInput } from "@/src/components/ui/phone-input";
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
-import { useForm } from "@tanstack/react-form";
+import { useForm, useSelector } from "@tanstack/react-form";
 import { Loader2, Save, UserCheck } from "lucide-react";
-import { useEffect } from "react";
 import { useMutationUpdateProfile } from "../_hooks/use-mutation-update-profile";
 import {
   UpdateProfileFields,
@@ -65,19 +64,7 @@ export default function PersonalInfo({ user }: { user: IUser }) {
       }
     },
   });
-
-  // effects
-  useEffect(() => {
-    if (user) {
-      form.setFieldValue("userName", user.userName || "");
-      form.setFieldValue("phoneNumber", user.phoneNumber || "");
-      form.setFieldValue(
-        "gender",
-        (user.gender as "male" | "female") || "male",
-      );
-      form.setFieldValue("email", user.email || "");
-    }
-  }, [user, form]);
+  const isDirty = useSelector(form.store, (state) => state.isDirty);
 
   return (
     <TanStackFormProvider form={form}>
@@ -220,24 +207,47 @@ export default function PersonalInfo({ user }: { user: IUser }) {
             </div>
 
             {/* Save General Info Button */}
-            <div className="flex justify-end pt-2">
-              <Button
-                type="submit"
-                disabled={isPending}
-                className="rounded-xl px-6 font-semibold cursor-pointer"
+            <div className="flex justify-end pt-2 gap-2">
+              <form.Subscribe
+                selector={(state) => ({
+                  isValid: state.isValid,
+                  canSubmit: state.canSubmit,
+                  isDirty: state.isDirty,
+                })}
               >
-                {isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving Changes…
-                  </>
-                ) : (
-                  <>
-                    <Save className="mr-2 h-4 w-4" />
-                    Save Information
-                  </>
+                {({ isValid, canSubmit, isDirty }) => (
+                  <Button
+                    type="submit"
+                    disabled={isPending || !isValid || !canSubmit || !isDirty}
+                    className="rounded-xl px-6 font-semibold cursor-pointer"
+                  >
+                    {isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Saving Changes…
+                      </>
+                    ) : (
+                      <>
+                        <Save className="mr-2 h-4 w-4" />
+                        Save Information
+                      </>
+                    )}
+                  </Button>
                 )}
-              </Button>
+              </form.Subscribe>
+
+              {isDirty && (
+                <Button
+                  type="button"
+                  onClick={() => {
+                    form.reset();
+                  }}
+                  variant="outline"
+                  className="rounded-xl px-6 font-semibold cursor-pointer border-purple-500/30 hover:bg-purple-500/10"
+                >
+                  Cancel Changes
+                </Button>
+              )}
             </div>
           </form>
         </div>
