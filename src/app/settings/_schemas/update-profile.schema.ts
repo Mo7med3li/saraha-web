@@ -23,6 +23,7 @@ export const updateProfileSchema = z.object({
     .or(z.literal("")),
 
   gender: z.enum([...Object.values(GENDER_ENUM)]),
+  email: z.email(),
 });
 
 export type UpdateProfileFields = z.infer<typeof updateProfileSchema>;
