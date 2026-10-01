@@ -1,10 +1,6 @@
-import React, { createContext, useContext } from "react";
-import {
-  AnyFieldApi,
-  FieldValidators,
-  ReactFormExtendedApi,
-} from "@tanstack/react-form";
+import { AnyFieldApi } from "@tanstack/react-form";
 import { cn } from "cn";
+import React, { createContext, useContext } from "react";
 import { Label } from "../ui/label";
 import { Skeleton } from "../ui/skeleton";
 
@@ -23,34 +19,8 @@ function formatFieldErrorMessage(error: unknown): string {
 
 /* Shared untyped shell — each screen still types its own useForm() values. */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-type AnyReactFormApi = ReactFormExtendedApi<
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any
->;
-type AnyFieldValidators = FieldValidators<
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any,
-  any
->;
+type AnyReactFormApi = any;
+type AnyFieldValidators = any;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 const TanStackFormContext = createContext<AnyReactFormApi | null>(null);
