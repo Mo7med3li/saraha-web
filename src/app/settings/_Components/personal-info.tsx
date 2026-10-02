@@ -70,10 +70,10 @@ export default function PersonalInfo({ user }: { user: IUser }) {
     <TanStackFormProvider form={form}>
       <div className="w-full space-y-8">
         {/* ── SECTION 1: GENERAL PROFILE DETAILS ── */}
-        <div className="rounded-3xl border border-indigo-500/20 p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-6 sm:p-8 shadow-sm space-y-6">
           <div className="flex items-center justify-between pb-5 border-b border-border/50">
             <div className="flex items-center gap-3.5">
-              <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+              <div className="p-3 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
                 <UserCheck className="size-6" />
               </div>
               <div>
@@ -219,7 +219,7 @@ export default function PersonalInfo({ user }: { user: IUser }) {
                   <Button
                     type="submit"
                     disabled={isPending || !isValid || !canSubmit || !isDirty}
-                    className="rounded-xl px-6 font-semibold cursor-pointer"
+                    className="rounded-xl px-6 font-semibold cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
                   >
                     {isPending ? (
                       <>
@@ -243,7 +243,7 @@ export default function PersonalInfo({ user }: { user: IUser }) {
                     form.reset();
                   }}
                   variant="outline"
-                  className="rounded-xl px-6 font-semibold cursor-pointer border-purple-500/30 hover:bg-purple-500/10"
+                  className="rounded-xl px-6 font-semibold cursor-pointer border-blue-500/30 hover:bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 >
                   Cancel Changes
                 </Button>
