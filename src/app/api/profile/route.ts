@@ -4,8 +4,8 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const signature = await getSignature();
-  const token = await getToken({ req });
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  const signature = getSignature(token?.user?.role);
 
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

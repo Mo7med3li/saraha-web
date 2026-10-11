@@ -6,8 +6,8 @@ import { UpdateProfileFields } from "../_schemas/update-profile.schema";
 
 export const updateUserGalleryAction = async (data: FormData) => {
   // token & signature
-  const signature = await getSignature();
   const token = await getNextAuthToken();
+  const signature = getSignature(token?.user?.role);
 
   const response = await fetch(
     `${process.env.DATABASE_URL}/users/profile-gallery`,
