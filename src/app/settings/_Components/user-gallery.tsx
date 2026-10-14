@@ -52,6 +52,7 @@ export const UserGallery = ({ user }: { user: IUser }) => {
         await updateGalleryMutation(formData);
       } catch (error) {
         console.error("Error updating gallery:", error);
+      } finally {
         form.reset();
       }
     },

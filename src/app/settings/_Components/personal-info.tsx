@@ -57,10 +57,11 @@ export default function PersonalInfo({ user }: { user: IUser }) {
 
         await updateProfileMutation(updatedFields as UpdateProfileFields);
       } catch (error) {
-        form.reset();
         console.error(
           error instanceof Error ? error.message : "Failed to update profile",
         );
+      } finally {
+        form.reset();
       }
     },
   });

@@ -29,6 +29,7 @@ export default function ProfileAvatarSection({ user }: { user: IUser }) {
         }
       } catch (error) {
         console.error("Error updating avatar:", error);
+      } finally {
         form.reset();
       }
     },
