@@ -33,7 +33,7 @@ export default function ResetPassword({ onStepChange }: ResetPasswordProps) {
     defaultValues: {
       email: email || "",
       otp: localStorage.getItem("otp") || "",
-      password: "",
+      newPassword: "",
       confirmPassword: "",
     },
     validators: {
@@ -43,6 +43,12 @@ export default function ResetPassword({ onStepChange }: ResetPasswordProps) {
     },
     onSubmit: async ({ value }) => {
       try {
+        console.log({
+          ...value,
+          email: email || value.email,
+          otp: localStorage.getItem("otp") || "",
+        });
+
         await resetPasswordMutation({
           ...value,
           email: email || value.email,
@@ -78,7 +84,7 @@ export default function ResetPassword({ onStepChange }: ResetPasswordProps) {
         >
           <TanStackFormItem
             required
-            name="password"
+            name="newPassword"
             label="New password"
             labelProps={{
               className: "col-span-12 mb-1 font-medium text-xs text-foreground",

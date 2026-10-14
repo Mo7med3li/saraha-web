@@ -5,7 +5,6 @@ import { Button } from "@/src/components/ui/button";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
-import RailwayEmailAlert from "../../_components/railway-email-alert";
 import ConfirmationStep from "./confirmation-step";
 import RegisterStep from "./register-step";
 
@@ -30,9 +29,6 @@ export default function SignupForm() {
 
   return (
     <section className="space-y-6">
-      {/* Railway email warning banner */}
-      <RailwayEmailAlert />
-
       {/* ── Step indicator ── */}
       <StepsIndicator step={step} STEPS={STEPS} />
 
