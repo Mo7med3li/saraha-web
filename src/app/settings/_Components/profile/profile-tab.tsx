@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2, X, User } from "lucide-react";
-import { useProfile } from "../_hooks/use-query-profile";
+import { useProfile } from "../../_hooks/use-query-profile";
 
 import PersonalInfo from "./personal-info";
 import ProfileAvatarSection from "./profile-avatar-section";

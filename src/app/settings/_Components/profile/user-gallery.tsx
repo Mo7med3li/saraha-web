@@ -5,9 +5,9 @@ import {
 import { GalleryModalDisplay } from "@/src/components/shared/gallery-modal-display";
 import { Button } from "@/src/components/ui/button";
 import { Images, Loader2, Sparkles } from "lucide-react";
-import { useMutationUpdateGallery } from "../_hooks/use-mutation-update-avatar copy";
+import { useMutationUpdateGallery } from "../../_hooks/use-mutation-update-avatar copy";
 import { useForm, useSelector } from "@tanstack/react-form";
-import { updateGallerySchema } from "../_schemas/gallery.schema";
+import { updateGallerySchema } from "../../_schemas/gallery.schema";
 import { ExistingImageItem, NewImageItem } from "@/src/lib/types/gallery";
 
 type GalleryItem = NewImageItem | ExistingImageItem;

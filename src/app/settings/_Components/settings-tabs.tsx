@@ -8,9 +8,9 @@ import {
 } from "@/src/components/ui/tabs";
 import { ShieldAlert, ShieldCheck, User } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import AccountManagementTab from "./account-management-tab";
-import ProfileTab from "./profile-tab";
-import SecurityTab from "./security-tab";
+import AccountManagementTab from "./account-management/account-management-tab";
+import ProfileTab from "./profile/profile-tab";
+import SecurityTab from "./security/security-tab";
 import { ErrorBoundary } from "@/src/components/shared/error-boundry";
 
 const STRUCTURE_TAB_VALUES = [

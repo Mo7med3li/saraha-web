@@ -3,8 +3,8 @@ import { ImageUploader } from "@/src/components/shared/image-uploader";
 import { Button } from "@/src/components/ui/button";
 import { useForm, useSelector } from "@tanstack/react-form";
 import { CheckCircle2, ImageIcon, Loader2 } from "lucide-react";
-import { useMutationUpdateAvatar } from "../_hooks/use-mutation-update-avatar";
-import { updateAvatarSchema } from "../_schemas/update-avatar.schema";
+import { useMutationUpdateAvatar } from "../../_hooks/use-mutation-update-avatar";
+import { updateAvatarSchema } from "../../_schemas/update-avatar.schema";
 
 export default function ProfileAvatarSection({ user }: { user: IUser }) {
   // hooks

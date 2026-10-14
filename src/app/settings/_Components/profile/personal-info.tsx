@@ -11,11 +11,11 @@ import { PhoneInput } from "@/src/components/ui/phone-input";
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import { useForm, useSelector } from "@tanstack/react-form";
 import { Loader2, Save, UserCheck } from "lucide-react";
-import { useMutationUpdateProfile } from "../_hooks/use-mutation-update-profile";
+import { useMutationUpdateProfile } from "../../_hooks/use-mutation-update-profile";
 import {
   UpdateProfileFields,
   updateProfileSchema,
-} from "../_schemas/update-profile.schema";
+} from "../../_schemas/update-profile.schema";
 
 import { toast } from "sonner";
 
