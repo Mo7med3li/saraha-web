@@ -1,34 +1,62 @@
-import { Lock, ShieldCheck } from "lucide-react";
+"use client";
+
+import { ShieldCheck, Lock, KeyRound, CheckCircle2 } from "lucide-react";
+import UpdatePasswordForm from "./update-password-form";
 
 export default function SecurityTab() {
   return (
-    <div className="rounded-3xl border border-emerald-500/20 p-6 sm:p-8 shadow-sm">
-      <div className="flex items-center gap-3.5 mb-6 pb-5 border-b border-border/50">
-        <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-          <ShieldCheck className="size-6" />
-        </div>
-        <div>
-          <h2 className="text-xl font-bold text-foreground">
+    <div className="w-full space-y-6">
+      {/* ── Header ── */}
+      <div className="mb-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            <ShieldCheck className="size-6" />
+          </div>
+          <h1 className="text-2xl font-semibold text-foreground tracking-tight">
             Security Settings
-          </h2>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-            Update your account password and configure security preferences.
-          </p>
+          </h1>
         </div>
+        <p className="text-sm text-muted-foreground pl-1">
+          Manage your password, configure session security, and keep your account safe.
+        </p>
       </div>
 
-      {/* Place your Security Component here */}
-      <div className="min-h-90 w-full flex flex-col items-center justify-center border-2 border-dashed border-emerald-500/30 rounded-2xl p-8 sm:p-12 text-center bg-emerald-500/5">
-        <div className="p-4 rounded-full bg-emerald-500/10 text-emerald-500 mb-3">
-          <Lock className="size-8" />
+      {/* ── Main Password Change Section ── */}
+      <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 sm:p-8 shadow-sm">
+        <UpdatePasswordForm />
+      </div>
+
+      {/* ── Security Tips & Highlights ── */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+        <div className="p-4 rounded-xl border border-border/60 bg-card/60 space-y-2">
+          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold text-xs uppercase tracking-wider">
+            <CheckCircle2 className="size-4" />
+            <span>Strong Characters</span>
+          </div>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Use a combination of uppercase letters, numbers, and symbols to ensure maximum complexity.
+          </p>
         </div>
-        <h3 className="text-base font-semibold text-foreground mb-1">
-          Security Component Ready
-        </h3>
-        <p className="text-xs sm:text-sm text-muted-foreground max-w-md">
-          Drop your change password form and security authentication settings
-          component here.
-        </p>
+
+        <div className="p-4 rounded-xl border border-border/60 bg-card/60 space-y-2">
+          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold text-xs uppercase tracking-wider">
+            <Lock className="size-4" />
+            <span>Session Control</span>
+          </div>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Choose to automatically invalidate active sessions across all devices when resetting passwords.
+          </p>
+        </div>
+
+        <div className="p-4 rounded-xl border border-border/60 bg-card/60 space-y-2">
+          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold text-xs uppercase tracking-wider">
+            <KeyRound className="size-4" />
+            <span>Never Reuse</span>
+          </div>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Avoid reusing passwords from other platforms to safeguard against external data leaks.
+          </p>
+        </div>
       </div>
     </div>
   );
