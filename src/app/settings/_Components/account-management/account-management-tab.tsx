@@ -1,34 +1,77 @@
-import { ShieldAlert, UserX } from "lucide-react";
+"use client";
+
+import { AlertCircle, Loader2, ShieldAlert } from "lucide-react";
+import { useProfile } from "../../_hooks/use-query-profile";
+import { AccountStatusCard } from "./account-status-card";
+import { FreezeAccountSection } from "./freeze-account-section";
+import { RestoreAccountSection } from "./restore-account-section";
+import { DeleteAccountSection } from "./delete-account-section";
 
 export default function AccountManagementTab() {
-  return (
-    <div className="rounded-3xl border border-rose-500/20 p-6 sm:p-8 shadow-sm">
-      <div className="flex items-center gap-3.5 mb-6 pb-5 border-b border-border/50">
-        <div className="p-3 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
-          <ShieldAlert className="size-6" />
+  const { data: user, isLoading, error } = useProfile();
+
+  if (isLoading) {
+    return (
+      <div className="rounded-2xl border border-border/40 bg-card/50 backdrop-blur-sm p-12 flex flex-col items-center justify-center space-y-4 min-h-100">
+        <div className="relative">
+          <Loader2 className="size-10 animate-spin text-rose-500" />
+          <div className="absolute inset-0 size-10 animate-ping rounded-full bg-rose-500/20" />
+        </div>
+        <p className="text-sm font-medium text-muted-foreground">
+          Loading account information…
+        </p>
+      </div>
+    );
+  }
+
+  if (error || !user) {
+    return (
+      <div className="rounded-2xl border border-rose-500/20 bg-rose-500/5 p-12 flex flex-col items-center justify-center space-y-4 min-h-100 text-center">
+        <div className="p-3 rounded-xl bg-rose-500/10 text-rose-500">
+          <AlertCircle className="size-8" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-foreground">
-            Account Management
-          </h2>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-            Freeze, restore, or permanently delete your Saraha account.
+          <h3 className="text-base font-semibold text-foreground">
+            Failed to Load Account Data
+          </h3>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+            Unable to fetch account management details. Please try refreshing the page.
           </p>
         </div>
       </div>
+    );
+  }
 
-      {/* Place your Account Management Component here */}
-      <div className="min-h-90 w-full flex flex-col items-center justify-center border-2 border-dashed border-rose-500/30 rounded-2xl p-8 sm:p-12 text-center bg-rose-500/5">
-        <div className="p-4 rounded-full bg-rose-500/10 text-rose-500 mb-3">
-          <UserX className="size-8" />
+  return (
+    <div className="w-full space-y-6">
+      {/* ── Page Header ── */}
+      <div className="mb-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="p-2.5 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+            <ShieldAlert className="size-6" />
+          </div>
+          <h1 className="text-2xl font-semibold text-foreground tracking-tight">
+            Account Management
+          </h1>
         </div>
-        <h3 className="text-base font-semibold text-foreground mb-1">
-          Account Management Component Ready
-        </h3>
-        <p className="text-xs sm:text-sm text-muted-foreground max-w-md">
-          Drop your account freeze toggle, restore account action, and delete
-          account danger zone modals here.
+        <p className="text-sm text-muted-foreground pl-1">
+          Control your account lifecycle, temporarily suspend operations, restore access, or permanently delete your data.
         </p>
+      </div>
+
+      {/* ── Status Card ── */}
+      <AccountStatusCard user={user} />
+
+      {/* ── Action Sections ── */}
+      <div className="space-y-5">
+        {/* Freeze Account Section */}
+        <FreezeAccountSection user={user} />
+
+        {/* Restore Account Section */}
+        <RestoreAccountSection user={user} />
+
+        {/* Danger Zone: Delete Account */}
+        <DeleteAccountSection user={user} />
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import UpdatePasswordForm from "./update-password-form";
 
 export default function SecurityTab() {
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-6 py-4">
       {/* ── Header ── */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2">
@@ -17,7 +17,8 @@ export default function SecurityTab() {
           </h1>
         </div>
         <p className="text-sm text-muted-foreground pl-1">
-          Manage your password, configure session security, and keep your account safe.
+          Manage your password, configure session security, and keep your
+          account safe.
         </p>
       </div>
 
@@ -34,7 +35,8 @@ export default function SecurityTab() {
             <span>Strong Characters</span>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Use a combination of uppercase letters, numbers, and symbols to ensure maximum complexity.
+            Use a combination of uppercase letters, numbers, and symbols to
+            ensure maximum complexity.
           </p>
         </div>
 
@@ -44,7 +46,8 @@ export default function SecurityTab() {
             <span>Session Control</span>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Choose to automatically invalidate active sessions across all devices when resetting passwords.
+            Choose to automatically invalidate active sessions across all
+            devices when resetting passwords.
           </p>
         </div>
 
@@ -54,7 +57,8 @@ export default function SecurityTab() {
             <span>Never Reuse</span>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Avoid reusing passwords from other platforms to safeguard against external data leaks.
+            Avoid reusing passwords from other platforms to safeguard against
+            external data leaks.
           </p>
         </div>
       </div>
