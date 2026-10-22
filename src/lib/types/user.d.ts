@@ -16,4 +16,8 @@ declare interface IUser {
   }[];
   role: string;
   createdAt: Date;
+  deletedAt?: Date | string | null;
+  deletedBy?: string | null;
+  restoredAt?: Date | string | null;
+  restoredBy?: string | null;
 }
