@@ -6,9 +6,18 @@ import {
   loginWithGoogleIdToken,
 } from "./app/api/auth.api";
 
+const ACCESS_TOKEN_LIFETIME_MS = 30 * 60 * 1000; // 30 minutes
+
 export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
+  },
+  session: {
+    strategy: "jwt",
+    // Keep the NextAuth session alive for 7 days. The backend access token
+    // rotates every 30 min via `accessTokenExpires`; the session container
+    // must outlive it so the refresh token is still available when needed.
+    maxAge: 7 * 24 * 60 * 60,
   },
   providers: [
     Credentials({
@@ -54,6 +63,11 @@ export const authOptions: NextAuthOptions = {
           token.user = data.user;
           token.token = data.accessToken;
           token.refreshToken = data.refreshToken;
+          // Custom field — tracks the BACKEND access token's real expiry.
+          // Deliberately NOT using `exp`: NextAuth's own encode() recalculates
+          // `exp` on every re-encode based on session.maxAge, so any value we
+          // set there gets silently overwritten on the next session check.
+          token.accessTokenExpires = Date.now() + ACCESS_TOKEN_LIFETIME_MS;
           return token;
         } catch (error) {
           console.error(error);
@@ -66,12 +80,16 @@ export const authOptions: NextAuthOptions = {
         token.user = user.user;
         token.token = user.token;
         token.refreshToken = user.refreshToken;
+        token.accessTokenExpires = Date.now() + ACCESS_TOKEN_LIFETIME_MS;
       }
-      if (trigger === "update" && user) {
+
+      if (trigger === "update" && session) {
         token.user = session?.user;
         token.token = session?.accessToken;
         token.refreshToken = session?.refreshToken;
+        token.accessTokenExpires = Date.now() + ACCESS_TOKEN_LIFETIME_MS;
       }
+
       return token;
     },
     session: ({ session, token }) => {
