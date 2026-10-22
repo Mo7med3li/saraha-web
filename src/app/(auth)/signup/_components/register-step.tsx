@@ -192,13 +192,7 @@ export default function RegisterStep({ setStep }: RegisterStepProps) {
                 type="submit"
                 disabled={isPending || !isValid || !canSubmit || !isDirty}
                 className="w-full"
-                onClick={() => {
-                  // form.handleSubmit();
-                  toast.warning(
-                    "Sign up with Google instead for instant access.",
-                    { duration: 8000 },
-                  );
-                }}
+                onClick={() => form.handleSubmit()}
               >
                 {isPending ? "Creating account…" : "Continue"}
               </Button>

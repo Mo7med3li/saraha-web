@@ -1,11 +1,10 @@
 "use client";
 
+import { StepsIndicator } from "@/src/components/shared/steps-indicator";
 import { useState } from "react";
+import ResetPassword from "./reset-password";
 import SendOtp from "./send-otp";
 import VerifyOtp from "./verify-otp";
-import ResetPassword from "./reset-password";
-import { StepsIndicator } from "@/src/components/shared/steps-indicator";
-import RailwayEmailAlert from "../../_components/railway-email-alert";
 // steps configuration
 const steps = [
   { label: "Send OTP" },
@@ -17,7 +16,7 @@ export default function ForgetPasswordForm() {
   // states
   const [step, setStep] = useState<
     "send-otp" | "verify-otp" | "reset-password"
-  >("reset-password");
+  >("send-otp");
 
   // handlers
   const getActiveStep = (): number => {
@@ -28,9 +27,6 @@ export default function ForgetPasswordForm() {
 
   return (
     <section className="space-y-6">
-      {/* ── Railway email warning banner ── */}
-      <RailwayEmailAlert />
-
       {/* ── Steps Indicator ── */}
       <StepsIndicator step={getActiveStep()} STEPS={steps} />
 

@@ -9,7 +9,7 @@ export const resetPasswordSchema = z
       .string()
       .min(6, { message: " OTP is required" })
       .max(6, " OTP must be 6 digits"),
-    password: z
+    newPassword: z
       .string()
       .min(1, { message: "password is required" })
       .min(8, {
@@ -21,7 +21,7 @@ export const resetPasswordSchema = z
       }),
     confirmPassword: z.string().min(1, "confirm password is required"),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.confirmPassword, {
     message: "password and confirm password should be the same ",
     path: ["confirmPassword"],
   });
