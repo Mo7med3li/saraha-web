@@ -10,15 +10,30 @@ const authPages = new Set([
   "/forget-password",
 ]);
 
-// Resolves the correct NextAuth session cookie name.
-// NextAuth automatically prefixes with "__Secure-" in production (HTTPS).
+// On HTTPS (Vercel) NextAuth always uses the __Secure- cookie name.
+// Do not honor a localhost cookie name from env in production — that caused
+// logout/login redirect loops.
 function getSessionCookieName(): string {
-  if (process.env.NEXT_AUTH_SESSION_TOKEN) {
-    return process.env.NEXT_AUTH_SESSION_TOKEN;
+  if (process.env.NODE_ENV === "production") {
+    return "__Secure-next-auth.session-token";
   }
-  return process.env.NODE_ENV === "production"
-    ? "__Secure-next-auth.session-token"
-    : "next-auth.session-token";
+  return (
+    process.env.NEXT_AUTH_SESSION_TOKEN?.trim() || "next-auth.session-token"
+  );
+}
+
+function clearSessionCookies(res: NextResponse) {
+  res.cookies.set("next-auth.session-token", "", {
+    httpOnly: true,
+    path: "/",
+    maxAge: 0,
+  });
+  res.cookies.set("__Secure-next-auth.session-token", "", {
+    httpOnly: true,
+    secure: true,
+    path: "/",
+    maxAge: 0,
+  });
 }
 
 // Checks the BACKEND access token's real expiry — not NextAuth's own `exp`
@@ -46,9 +61,10 @@ async function applyRefreshedToken(
     secret: process.env.NEXTAUTH_SECRET ?? "",
   });
 
+  const secure = process.env.NODE_ENV === "production";
   res.cookies.set(getSessionCookieName(), encodedToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure,
     sameSite: "lax",
     path: "/",
     maxAge: 7 * 24 * 60 * 60,
@@ -74,7 +90,10 @@ export default async function middleware(req: NextRequest) {
 
       if (!newToken) {
         const redirectUrl = new URL("/login", req.nextUrl.origin);
-        return NextResponse.redirect(redirectUrl);
+        redirectUrl.searchParams.set("callbackUrl", pathname);
+        const res = NextResponse.redirect(redirectUrl);
+        clearSessionCookies(res);
+        return res;
       }
 
       return applyRefreshedToken(NextResponse.next(), newToken);
@@ -87,6 +106,12 @@ export default async function middleware(req: NextRequest) {
   if (authPages.has(pathname)) {
     if (!jwt) {
       return NextResponse.next();
+    }
+    // Session cookie exists but has no usable access token → clear and stay on login
+    if (!jwt.token) {
+      const res = NextResponse.next();
+      clearSessionCookies(res);
+      return res;
     }
     const redirectUrl = new URL("/", req.nextUrl.origin);
     return NextResponse.redirect(redirectUrl);
