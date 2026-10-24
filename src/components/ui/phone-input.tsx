@@ -225,6 +225,7 @@ type PhoneInputProps = Omit<
   Omit<RPNInput.Props<typeof RPNInput.default>, "onChange"> & {
     onChange?: (value: RPNInput.Value) => void;
     error?: boolean;
+    withCountryCallingCode?: boolean;
     ref?: React.Ref<React.ElementRef<typeof RPNInput.default>>;
   };
 
@@ -238,6 +239,9 @@ function PhoneInput({
   value,
   error = false,
   ref,
+  international = true,
+  withCountryCallingCode = false,
+  countryCallingCodeEditable = false,
   ...props
 }: PhoneInputProps) {
   return (
@@ -249,6 +253,11 @@ function PhoneInput({
         countrySelectComponent={CountrySelect}
         inputComponent={InputComponent}
         smartCaret={false}
+        // Country code stays in the flag selector (EG +20).
+        // Input shows national digits only; `value` / onChange stay E.164 (+20…).
+        international={international}
+        withCountryCallingCode={withCountryCallingCode}
+        countryCallingCodeEditable={countryCallingCodeEditable}
         value={value || undefined}
         onChange={(value) => onChange?.(value || ("" as RPNInput.Value))}
         {...props}

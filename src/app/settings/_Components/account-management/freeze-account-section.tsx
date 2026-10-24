@@ -88,10 +88,14 @@ export function FreezeAccountSection({ user }: FreezeAccountSectionProps) {
           trigger={
             <Button
               variant="outline"
-              disabled={isAlreadyFrozen}
-              className="rounded-xl px-5 h-10 font-semibold cursor-pointer border-amber-500/30 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 whitespace-nowrap self-start sm:self-center"
+              disabled={isAlreadyFrozen && !isAdmin}
+              className="h-10 cursor-pointer self-start whitespace-nowrap rounded-xl border-amber-500/30 px-5 font-semibold text-amber-600 hover:bg-amber-500/10 dark:text-amber-400 sm:self-center"
             >
-              {isAlreadyFrozen ? "Account Is Frozen" : "Freeze Account"}
+              {isAlreadyFrozen && !isAdmin
+                ? "Account Is Frozen"
+                : isAdmin
+                  ? "Freeze Account…"
+                  : "Freeze Account"}
             </Button>
           }
         >

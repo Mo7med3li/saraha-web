@@ -42,35 +42,36 @@ export default function AccountManagementTab() {
     );
   }
 
+  const isFrozen = Boolean(user.deletedAt);
+  const isAdmin = user.role === "admin";
+
+  // Regular users: freeze XOR restore by own status.
+  // Admins: keep both so they can freeze/restore other accounts.
+  const showFreeze = !isFrozen || isAdmin;
+  const showRestore = isFrozen || isAdmin;
+
   return (
     <div className="w-full space-y-6">
-      {/* ── Page Header ── */}
       <div className="mb-6">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2.5 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+        <div className="mb-2 flex items-center gap-3">
+          <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-2.5 text-rose-600 dark:text-rose-400">
             <ShieldAlert className="size-6" />
           </div>
-          <h1 className="text-2xl font-semibold text-foreground tracking-tight">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
             Account Management
           </h1>
         </div>
-        <p className="text-sm text-muted-foreground pl-1">
-          Control your account lifecycle, temporarily suspend operations, restore access, or permanently delete your data.
+        <p className="pl-1 text-sm text-muted-foreground">
+          Control your account lifecycle — freeze, restore, or permanently
+          delete your data.
         </p>
       </div>
 
-      {/* ── Status Card ── */}
       <AccountStatusCard user={user} />
 
-      {/* ── Action Sections ── */}
       <div className="space-y-5">
-        {/* Freeze Account Section */}
-        <FreezeAccountSection user={user} />
-
-        {/* Restore Account Section */}
-        <RestoreAccountSection user={user} />
-
-        {/* Danger Zone: Delete Account */}
+        {showFreeze ? <FreezeAccountSection user={user} /> : null}
+        {showRestore ? <RestoreAccountSection user={user} /> : null}
         <DeleteAccountSection user={user} />
       </div>
     </div>
