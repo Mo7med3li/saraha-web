@@ -54,16 +54,13 @@ function makeQueryClient() {
       onError: (_error, _variables, _context, mutation) => {
         const key = mutation.meta?.messageKey;
         toast.dismiss(key);
+        console.log("react query error: ", _error);
+
         if (mutation.meta?.errorMessage) {
-          toast.error(
-            `${mutation.meta.errorMessage}\n${
-              (_error as Error).response?.data?.message
-            }`,
-            {
-              id: key,
-              duration: 7000,
-            }
-          );
+          toast.error(`${mutation.meta.errorMessage}\n${_error as Error}`, {
+            id: key,
+            duration: 7000,
+          });
         }
       },
       onSettled: (_data, _error, _variables, _context, mutation) => {
@@ -99,9 +96,6 @@ export default function QueryProvider({
   const [queryClient] = useState(makeQueryClient);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }
-

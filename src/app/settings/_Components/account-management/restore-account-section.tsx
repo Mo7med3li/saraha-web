@@ -69,9 +69,10 @@ export function RestoreAccountSection({ user }: RestoreAccountSectionProps) {
                 </span>
               )}
             </div>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-              Reactivate a suspended or frozen account to resume receiving
-              messages and make your profile publicly searchable again.
+            <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">
+              {isAdmin && !isFrozen
+                ? "Your account is active. As admin, you can restore another frozen user."
+                : "Reactivate a frozen account to resume receiving messages and make the profile public again."}
             </p>
           </div>
         </div>

@@ -1,9 +1,41 @@
+type IProfileData = { user: IUser & IUserMessages };
+
+function profileEndpoint() {
+  if (typeof window !== "undefined") {
+    return "/api/profile";
+  }
+
+  const base = (process.env.NEXTAUTH_URL || "http://localhost:3000").replace(
+    /\/$/,
+    "",
+  );
+  return `${base}/api/profile`;
+}
+
 export async function getProfileData() {
-  const response = await fetch(`/api/profile`);
+  const init: RequestInit = {
+    next: {
+      tags: ["user-profile"],
+    },
+  };
 
-  const payload: ApiResponse<{ user: IUser }> = await response.json();
+  // Server → /api/profile does not auto-send the browser cookie; forward it.
+  if (typeof window === "undefined") {
+    const { cookies } = await import("next/headers");
+    const cookieStore = await cookies();
+    init.headers = {
+      Cookie: cookieStore
+        .getAll()
+        .map((cookie) => `${cookie.name}=${cookie.value}`)
+        .join("; "),
+    };
+  }
 
-  if (!payload.success) {
+  const response = await fetch(profileEndpoint(), init);
+
+  const payload: ApiResponse<IProfileData> = await response.json();
+
+  if (!response.ok || !payload.success) {
     throw new Error("Failed to fetch profile data");
   }
 

@@ -63,7 +63,14 @@ export default function ConfirmationStep({ setStep }: ConfirmationStepProps) {
       try {
         await confirmEmailMutation(value);
         setStep(1);
-        router.push("/login");
+        const callbackUrl = new URLSearchParams(window.location.search).get(
+          "callbackUrl",
+        );
+        router.push(
+          callbackUrl
+            ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
+            : "/login",
+        );
       } catch (error) {
         console.error(error);
       }
