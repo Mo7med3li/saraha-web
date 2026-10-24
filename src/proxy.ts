@@ -2,8 +2,13 @@ import { encode, getToken, JWT } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { refreshTokenApi } from "./lib/api/refresh-token.api";
 
-const privatePages = new Set(["/dashboard"]);
-const authPages = new Set(["/login", "/register", "/forgot-password"]);
+const privatePages = new Set(["/", "/dashboard", "/settings"]);
+const authPages = new Set([
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/forget-password",
+]);
 
 // Resolves the correct NextAuth session cookie name.
 // NextAuth automatically prefixes with "__Secure-" in production (HTTPS).
