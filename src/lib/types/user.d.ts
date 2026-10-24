@@ -21,3 +21,24 @@ declare interface IUser {
   restoredAt?: Date | string | null;
   restoredBy?: string | null;
 }
+
+declare interface IMessage {
+  _id: string;
+  content: string;
+  attachments: {
+    imageUrl: string;
+    asset_id: string;
+    _id: string;
+    id: string;
+  }[];
+  senderId?: string | null;
+  sender?: Pick<IUser, "_id" | "userName" | "profileImage"> | null;
+  receiverId: string;
+  parentMessageId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+declare interface IUserMessages {
+  messages: IMessage[];
+}
