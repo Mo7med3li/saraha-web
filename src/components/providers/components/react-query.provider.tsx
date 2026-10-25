@@ -57,7 +57,13 @@ function makeQueryClient() {
         console.log("react query error: ", _error);
 
         if (mutation.meta?.errorMessage) {
-          toast.error(`${mutation.meta.errorMessage}\n${_error as Error}`, {
+          const detail =
+            _error instanceof Error
+              ? _error.message
+              : typeof _error === "string"
+                ? _error
+                : "Something went wrong";
+          toast.error(`${mutation.meta.errorMessage}\n${detail}`, {
             id: key,
             duration: 7000,
           });

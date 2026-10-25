@@ -10,7 +10,10 @@ export async function GET(
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token?.token) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { success: false, message: "Unauthorized" },
+      { status: 401 },
+    );
   }
 
   const { userId } = await params;
