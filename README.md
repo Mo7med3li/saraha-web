@@ -3,7 +3,7 @@
 Frontend for **Saraha** — an anonymous messaging app inspired by Sarahah. Users share a public link; anyone can send honest messages (optionally with images). Logged-in senders can reveal their identity so recipients can reply.
 
 **Live:** [saraha-web.vercel.app](https://saraha-web.vercel.app)  
-**API:** separate Node/Express backend (`saraha-backend`)
+**API:** [saraha-api](https://saraha-app-teal-sigma.vercel.app/api-docs)
 
 ---
 
@@ -21,13 +21,13 @@ Frontend for **Saraha** — an anonymous messaging app inspired by Sarahah. User
 
 ## Tech stack
 
-| Layer | Choice |
-|--------|--------|
-| Framework | Next.js 16 (App Router) + React 19 |
-| Auth | NextAuth.js (JWT session) |
-| Data / forms | TanStack Query, TanStack Form, Zod |
-| UI | Tailwind CSS 4, shadcn/ui (Base UI), Sonner |
-| Deploy | Vercel |
+| Layer        | Choice                                      |
+| ------------ | ------------------------------------------- |
+| Framework    | Next.js 16 (App Router) + React 19          |
+| Auth         | NextAuth.js (JWT session)                   |
+| Data / forms | TanStack Query, TanStack Form, Zod          |
+| UI           | Tailwind CSS 4, shadcn/ui (Base UI), Sonner |
+| Deploy       | Vercel                                      |
 
 ---
 
@@ -109,24 +109,24 @@ pnpm lint     # ESLint
 
 ## Main routes
 
-| Path | Access | Description |
-|------|--------|-------------|
-| `/` | Private | Inbox |
-| `/dashboard` | Private | Share your link |
-| `/settings` | Private | Profile & account |
-| `/u/[id]` | Public | Send a message to a user |
-| `/login`, `/signup`, `/forget-password` | Public | Auth flows |
+| Path                                    | Access  | Description              |
+| --------------------------------------- | ------- | ------------------------ |
+| `/`                                     | Private | Inbox                    |
+| `/dashboard`                            | Private | Share your link          |
+| `/settings`                             | Private | Profile & account        |
+| `/u/[id]`                               | Public  | Send a message to a user |
+| `/login`, `/signup`, `/forget-password` | Public  | Auth flows               |
 
 ---
 
 ## Environment notes (Vercel)
 
-| Variable | Production tip |
-|----------|----------------|
-| `NEXTAUTH_URL` | Exact site origin, e.g. `https://saraha-web.vercel.app` (no path, no query) |
+| Variable                  | Production tip                                                               |
+| ------------------------- | ---------------------------------------------------------------------------- |
+| `NEXTAUTH_URL`            | Exact site origin, e.g. `https://saraha-web.vercel.app` (no path, no query)  |
 | `NEXT_AUTH_SESSION_TOKEN` | **Do not set** on production (HTTPS uses `__Secure-next-auth.session-token`) |
-| `DATABASE_URL` | Your deployed backend URL |
-| `NEXTAUTH_SECRET` | Same across deploys; never commit it |
+| `DATABASE_URL`            | Your deployed backend URL                                                    |
+| `NEXTAUTH_SECRET`         | Same across deploys; never commit it                                         |
 
 After changing env vars, **redeploy** Production and clear site cookies if auth redirects misbehave.
 
@@ -143,7 +143,7 @@ This app expects REST endpoints such as:
 - `POST /messages/:receiverId/sender` (identified)
 - `POST /messages/:messageId/reply`
 
-See the **saraha-backend** repo / `/api-docs` for the full contract.
+See the **saraha-backend** repo / `https://saraha-app-teal-sigma.vercel.app/api-docs` for the full contract.
 
 ---
 
